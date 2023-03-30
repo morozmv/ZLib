@@ -278,7 +278,6 @@ long ZCALLBACK win32_tell_file_func (voidpf opaque,voidpf stream)
         {
             DWORD dwErr = GetLastError();
             ((WIN32FILE_IOWIN*)stream) -> error=(int)dwErr;
-            ret = -1;
         }
         else
             ret=(long)pos.LowPart;
@@ -302,7 +301,6 @@ ZPOS64_T ZCALLBACK win32_tell64_file_func (voidpf opaque, voidpf stream)
         {
             DWORD dwErr = GetLastError();
             ((WIN32FILE_IOWIN*)stream) -> error=(int)dwErr;
-            ret = (ZPOS64_T)-1;
         }
         else
             ret=pos.QuadPart;
@@ -341,7 +339,6 @@ long ZCALLBACK win32_seek_file_func (voidpf opaque,voidpf stream,uLong offset,in
         {
             DWORD dwErr = GetLastError();
             ((WIN32FILE_IOWIN*)stream) -> error=(int)dwErr;
-            ret = -1;
         }
         else
             ret=0;
@@ -380,7 +377,6 @@ long ZCALLBACK win32_seek64_file_func (voidpf opaque, voidpf stream,ZPOS64_T off
         {
             DWORD dwErr = GetLastError();
             ((WIN32FILE_IOWIN*)stream) -> error=(int)dwErr;
-            ret = -1;
         }
         else
             ret=0;

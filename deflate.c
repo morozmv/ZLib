@@ -629,7 +629,7 @@ int ZEXPORT deflateParams(strm, level, strategy)
         int err = deflate(strm, Z_BLOCK);
         if (err == Z_STREAM_ERROR)
             return err;
-        if (strm->avail_in || (s->strstart - s->block_start) + s->lookahead)
+        if (strm->avail_in || (uInt)(s->strstart - s->block_start + s->lookahead))
             return Z_BUF_ERROR;
     }
     if (s->level != level) {

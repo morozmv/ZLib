@@ -60,11 +60,11 @@ int ZEXPORT uncompress2(dest, destLen, source, sourceLen)
 
     do {
         if (stream.avail_out == 0) {
-            stream.avail_out = left > (uLong)max ? max : (uInt)left;
+            stream.avail_out = left > (uLong)max ? max : (uInt)left; //-V547
             left -= stream.avail_out;
         }
         if (stream.avail_in == 0) {
-            stream.avail_in = len > (uLong)max ? max : (uInt)len;
+            stream.avail_in = len > (uLong)max ? max : (uInt)len; //-V547
             len -= stream.avail_in;
         }
         err = inflate(&stream, Z_NO_FLUSH);
@@ -79,7 +79,7 @@ int ZEXPORT uncompress2(dest, destLen, source, sourceLen)
     inflateEnd(&stream);
     return err == Z_STREAM_END ? Z_OK :
            err == Z_NEED_DICT ? Z_DATA_ERROR  :
-           err == Z_BUF_ERROR && left + stream.avail_out ? Z_DATA_ERROR :
+           err == Z_BUF_ERROR && (left + stream.avail_out) > 0 ? Z_DATA_ERROR :
            err;
 }
 

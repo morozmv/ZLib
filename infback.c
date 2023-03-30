@@ -458,7 +458,6 @@ void FAR *out_desc;
                values here (9 and 6) without reading the comments in inftrees.h
                concerning the ENOUGH constants, which depend on those values */
             state->next = state->codes;
-            state->lencode = (code const FAR *)(state->next);
             state->lenbits = 9;
             ret = inflate_table(LENS, state->lens, state->nlen, &(state->next),
                                 &(state->lenbits), state->work);
@@ -518,7 +517,6 @@ void FAR *out_desc;
                 ROOM();
                 *put++ = (unsigned char)(state->length);
                 left--;
-                state->mode = LEN;
                 break;
             }
 
