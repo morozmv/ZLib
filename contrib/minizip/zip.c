@@ -1135,6 +1135,9 @@ extern int ZEXPORT zipOpenNewFileInZip4_64 (zipFile file, const char* filename, 
 
     zi->ci.central_header = (char*)ALLOC((uInt)zi->ci.size_centralheader + zi->ci.size_centralExtraFree);
 
+    if (zi->ci.central_header == NULL)
+        return ZIP_INTERNALERROR;
+
     zi->ci.size_centralExtra = size_extrafield_global;
     zip64local_putValue_inmemory(zi->ci.central_header,(uLong)CENTRALHEADERMAGIC,4);
     /* version info */
@@ -1176,8 +1179,6 @@ extern int ZEXPORT zipOpenNewFileInZip4_64 (zipFile file, const char* filename, 
     for (i=0;i<size_comment;i++)
         *(zi->ci.central_header+SIZECENTRALHEADER+size_filename+
               size_extrafield_global+i) = *(comment+i);
-    if (zi->ci.central_header == NULL)
-        return ZIP_INTERNALERROR;
 
     zi->ci.zip64 = zip64;
     zi->ci.totalCompressedData = 0;
@@ -1578,7 +1579,7 @@ extern int ZEXPORT zipCloseFileInZipRaw64 (zipFile file, ZPOS64_T uncompressed_s
     if ((zi->ci.method == Z_DEFLATED) && (!zi->ci.raw))
     {
         int tmp_err = deflateEnd(&zi->ci.stream);
-        if (err == ZIP_OK)
+        if (err == ZIP_OK) //-V1051
             err = tmp_err;
         zi->ci.stream_initialised = 0;
     }
@@ -1586,7 +1587,7 @@ extern int ZEXPORT zipCloseFileInZipRaw64 (zipFile file, ZPOS64_T uncompressed_s
     else if((zi->ci.method == Z_BZIP2ED) && (!zi->ci.raw))
     {
       int tmperr = BZ2_bzCompressEnd(&zi->ci.bstream);
-                        if (err==ZIP_OK)
+                        if (err==ZIP_OK) //-V1051
                                 err = tmperr;
                         zi->ci.stream_initialised = 0;
     }
@@ -1972,7 +1973,7 @@ extern int ZEXPORT zipRemoveExtraInfoBlock (char* pData, int* dataLen, short sHe
     else
     {
       // Extra Info block should not be removed, So copy it to the temp buffer.
-      memcpy(pTmp, p, dataSize + 4);
+      memcpy(pTmp, p, dataSize + 4); //-V575
       p += dataSize + 4;
       size += dataSize + 4;
     }
@@ -1986,7 +1987,7 @@ extern int ZEXPORT zipRemoveExtraInfoBlock (char* pData, int* dataLen, short sHe
 
     // copy the new extra info block over the old
     if(size > 0)
-      memcpy(pData, pNewHeader, size);
+      memcpy(pData, pNewHeader, size); //-V575
 
     // set the new extra info size
     *dataLen = size;

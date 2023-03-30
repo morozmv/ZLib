@@ -1279,10 +1279,10 @@ extern int ZEXPORT unzLocateFile (unzFile file, const char *szFileName, int iCas
     /* We failed, so restore the state of the 'current file' to where we
      * were.
      */
-    s->num_file = num_fileSaved ;
-    s->pos_in_central_dir = pos_in_central_dirSaved ;
-    s->cur_file_info = cur_file_infoSaved;
-    s->cur_file_info_internal = cur_file_info_internalSaved;
+    s->num_file = num_fileSaved ; //-V1048
+    s->pos_in_central_dir = pos_in_central_dirSaved ; //-V1048
+    s->cur_file_info = cur_file_infoSaved; //-V1048
+    s->cur_file_info_internal = cur_file_info_internalSaved; //-V1048
     return err;
 }
 
